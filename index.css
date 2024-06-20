@@ -265,6 +265,7 @@ input::-webkit-inner-spin-button {
 	line-height: 1.5em;
 	cursor: pointer;
 	margin-right: 4px;
+	margin-top: 4px;
 }
 .btn-set-b {
 	width: 100%;
@@ -276,6 +277,10 @@ input::-webkit-inner-spin-button {
 	margin: 8px 0 0 0;
 	cursor: pointer;
 	border: 1px solid #fff;
+}
+.attention {
+	background-color: #e56f01;
+	color: #fff;
 }
 .btn-help {
 	z-index: 99;
@@ -447,6 +452,16 @@ input:focus {
 	height: 100px;
 	animation: spin 1s linear infinite;
 	/* 旋转动画 */
+}
+/* a链接 */
+#app a,
+#app a:link,
+#app a:visited,
+#app a:hover,
+#app a:focus,
+#app a:active {
+	color: #fff ;
+	text-decoration: none ;
 }
 /* font */
 .text-title {

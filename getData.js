@@ -27,8 +27,8 @@ $(".wiki-data").each(function (iIndex, iItem) {
 			let 稀有度 = $(this).find("td").eq(3).text();
 			let 属性 = $(this).find("td").eq(4).text();
 			let 特性 = $(this).find("td").eq(5).text();
-			let 核心技能材料 = $(this).find("td").eq(6).text() || "高维数据：提丰·重击者型";
-			let 核心技能材料2 = $(this).find("td").eq(7).text() || "源代码：狂如恶雨";
+			let 核心技能材料 = $(this).find("td").eq(6).text() || "高维数据：提丰·重击者型";// 测试用实装需删除
+			let 核心技能材料2 = $(this).find("td").eq(7).text() || "源代码：狂如恶雨";// 测试用实装需删除
 			switch (属性) {
 				case "冰":
 					属性 = "冰结";

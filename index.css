@@ -1,0 +1,498 @@
+.row {
+	max-width: 1160px;
+}
+.row {
+	margin: 0 !important;
+}
+.row > .col-xs-12 {
+	padding: 0 4px !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none !important;
+	margin: 0;
+}
+#cp-shade {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: #0000007a;
+	z-index: 99;
+	cursor: pointer;
+}
+.main-box {
+	border: 2px solid #000;
+	border-radius: 4px;
+	padding: 12px;
+	position: relative;
+	background-color: #7e7e7e;
+	margin-bottom: 8px;
+}
+.main-box-b {
+	border: 2px solid #000;
+	border-radius: 4px;
+	padding: 12px;
+	position: relative;
+	background-color: #2d2d2d;
+	margin-bottom: 8px;
+	color: #fff;
+}
+.list-type,
+.list-main {
+	padding: 8px 0;
+}
+.list-main rh {
+	width: 70px;
+}
+.set-box hr,
+.main-box-b hr {
+	margin: 8px 0;
+	border-top: 1px solid #646464;
+}
+.bag-box rh,
+.set-box rh {
+	width: 86px;
+}
+.main-case rh {
+	width: 80px;
+}
+.list-box {
+	padding: 12px 4px;
+	background-color: #2d2d2d;
+	border-radius: 4px;
+	color: #fff;
+	position: absolute;
+	z-index: 999;
+	top: 120px;
+	left: 0;
+	width: 100%;
+	border: 1px solid #fff;
+}
+.list-type img {
+	width: 30px;
+	height: 30px;
+	object-fit: cover;
+	cursor: pointer;
+	border: 2px solid #7e7e7e;
+	border-radius: 50%;
+	padding: 4px;
+	box-sizing: content-box;
+}
+.list-main img {
+	width: 66px;
+	height: 66px;
+	object-fit: cover;
+	cursor: pointer;
+	z-index: -1;
+}
+.list-contatiner {
+	border: 2px solid #7e7e7e;
+	border-radius: 4px;
+	position: relative;
+	font-weight: bold;
+	overflow: hidden;
+	font-size: 12px;
+	cursor: pointer;
+	box-shadow: 2px 1px 4px #6b6b6b;
+}
+.list-contatiner > div:last-child {
+	width: 100%;
+	height: 40px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: -1;
+	background-image: url("https://patchwiki.biligame.com/images/zzz/2/22/ko7nq3himuvsmjsjuswrv9vv8k9otta.png");
+	background-size: cover;
+	background-blend-mode: screen;
+	mask-image: url("https://patchwiki.biligame.com/images/zzz/2/22/ko7nq3himuvsmjsjuswrv9vv8k9otta.png");
+	mask-size: cover;
+	mask-composite: intersect;
+}
+.filter-Gray {
+	filter: grayscale(100%) opacity(0.4);
+}
+.color-S {
+	background-color: #f7b517;
+}
+.color-A {
+	background-color: #e800ff;
+}
+.color-B {
+	background-color: #00a9ff;
+}
+.color-C {
+	background-color: #7ea89c;
+}
+.img-box {
+	border: 2px #000 solid;
+	border-radius: 50%;
+	position: relative;
+}
+.img-box > img:first-child {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	cursor: pointer;
+	border-radius: 50%;
+}
+.base-case {
+	--marginLeft: 16px;
+	width: calc(100% - 104px - 16px);
+	color: #fff;
+}
+.base-case > div:last-child {
+	margin-top: 4px;
+}
+.btn-del {
+	position: absolute;
+	width: 34px;
+	height: 34px;
+	bottom: 0;
+	left: 0;
+	cursor: pointer;
+}
+.main-case {
+	border-top: 1px solid #000;
+	padding-top: 8px;
+	margin-bottom: 16px;
+}
+.skill-box input[type="number"] {
+	width: 30;
+	text-align: center;
+	border-radius: 4px;
+	border: 1px solid #000;
+	font-size: 12px;
+	background: #dbdedf;
+	color: #000;
+}
+.skill-box img {
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+	margin-bottom: 4px;
+}
+.more-btn {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	background-image: url("https://patchwiki.biligame.com/images/zzz/8/8c/nswuf3fvoii56h8auvuqea3i92a3uzg.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: auto 20px;
+	height: 20px;
+	cursor: pointer;
+	font-weight: bold;
+	color: #fff;
+}
+.more-btn img {
+	position: absolute;
+	bottom: 0;
+	width: 80%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.show-box {
+	border: 2px solid #000;
+	border-radius: 4px;
+	padding: 4px 12px;
+	position: relative;
+	background-color: #7e7e7e;
+	margin-bottom: 8px;
+	width: calc(50% - 2px);
+}
+.materials-img {
+	min-width: 80px;
+	position: relative;
+}
+.materials-img img {
+	max-width: 40px;
+	max-height: 40px;
+	object-fit: cover;
+	padding: 4px;
+	margin: 0;
+}
+.materials-img .icon-text {
+	position: absolute;
+	top: -4px;
+	left: 0;
+	font-size: 12px;
+	background: #2d2d2d;
+	color: #fff;
+	padding: 0px 2px;
+	border-radius: 2px;
+	opacity: 0.7;
+}
+.base-case input[type="number"],
+.btn-on {
+	width: 60px;
+	text-align: center;
+	border-radius: 4px;
+	border: 1px solid #000;
+	font-size: 12px;
+	background: #dbdedf;
+	color: #000;
+}
+.set-box > div {
+	width: 100%;
+}
+.set-box input[type="number"],
+.main-box-b input[type="number"],
+.bag-box input[type="number"] {
+	width: 46px;
+	text-align: center;
+	border-radius: 4px;
+	border: 1px solid #000;
+	font-size: 12px;
+	background: #dbdedf;
+	color: #000;
+}
+.set-box .need-box.materials-img {
+	cursor: pointer;
+}
+.btn-set {
+	text-align: center;
+	border-radius: 4px;
+	border: 1px solid #000;
+	background: #dbdedf;
+	color: #000;
+	display: inline-block;
+	padding: 0 12px;
+	line-height: 1.5em;
+	cursor: pointer;
+	margin-right: 4px;
+}
+.btn-set-b {
+	width: 100%;
+	background: #2d2d2d;
+	color: #fff;
+	padding: 8px;
+	border-radius: 8px;
+	font-weight: bold;
+	margin: 8px 0 0 0;
+	cursor: pointer;
+	border: 1px solid #fff;
+}
+.btn-help {
+	z-index: 99;
+	position: fixed;
+	top: 80px;
+	left: 10px;
+	border: 1px solid #6a707d;
+	padding: 4px 14px;
+	color: #ece5d8;
+	font-size: 16px;
+	font-weight: bold;
+	background: #4a5366;
+	border-radius: 5px;
+	cursor: pointer;
+	opacity: 0.4;
+}
+.help-box {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	z-index: 999;
+	background: #2d2d2d;
+	color: #fff;
+	padding: 4px;
+	border-radius: 8px;
+	width: 500px;
+	max-width: 90vw;
+	max-height: 80vh;
+	box-sizing: content-box;
+	.btn-close {
+		border: 1px solid #fff;
+		padding: 4px 12px;
+		border-radius: 24px;
+		background: #7e7e7e;
+		cursor: pointer;
+		position: fixed;
+		bottom: 20px;
+		width: 80%;
+		img {
+			border-radius: 50%;
+			height: 20px;
+			width: 20px;
+			margin: 0;
+		}
+	}
+}
+.power-box img {
+	width: 30px;
+}
+.help-box > div {
+	border: 2px solid #fff;
+	padding: 12px;
+	border-radius: 8px;
+	max-height: 80vh;
+	max-width: 90vw;
+	overflow: auto;
+	position: relative;
+	padding-bottom: 54px;
+}
+.save-wiki {
+	max-width: calc(100% - 200px);
+	border: 1px solid #000;
+	background: #dbdedf;
+	color: #000;
+	box-sizing: border-box;
+	border-radius: 5px;
+	padding: 0 4px;
+}
+.bag-box {
+	position: fixed;
+	width: 80%;
+	height: auto;
+	max-height: 70%;
+	z-index: 999;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	overflow: auto;
+}
+.kind-box {
+	top: 50%;
+	left: 50%;
+	width: auto;
+	transform: translateY(-50%) translateX(-50%);
+}
+.cur-p {
+	cursor: pointer;
+}
+.cur-p > img {
+	width: 40px;
+}
+.btn-min {
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+.main-box .btn-min {
+	position: absolute;
+	right: 4px;
+	top: 4px;
+	cursor: pointer;
+}
+.add-btn {
+	width: 100%;
+	border: 2px solid #000;
+	border-radius: 4px;
+	background-color: #7e7e7e;
+	cursor: pointer;
+	margin-bottom: 16px;
+}
+.btn-on,
+.btn-off {
+	cursor: pointer;
+}
+.btn-off {
+	color: #d9d9d9;
+	border-color: #d9d9d9;
+	background-color: #fff;
+}
+select {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+}
+select,
+input:focus-visible,
+input:focus {
+	outline: none;
+}
+.connector {
+	width: 12px;
+	height: 2px;
+	background-color: #d9d9d9;
+	border-radius: 1px;
+}
+.hide {
+	display: none;
+}
+
+/*  加载动画 */
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+#onload {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	min-height: 60vh;
+	background: #7e7e7e;
+	z-index: 9999999;
+}
+
+.loading-spinner {
+	border: 10px solid rgba(255, 255, 255, 0.3);
+	/* 半透明边框 */
+	border-top: 10px solid #ffffff;
+	/* 白色顶部边框 */
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	animation: spin 1s linear infinite;
+	/* 旋转动画 */
+}
+/* font */
+.text-title {
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+}
+.text-min {
+	font-size: 12px;
+}
+/* flex */
+.flex-row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.flex-row-c {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.flex-row-cc {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.flex-row-sc {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.flex-row-fc {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+}
+.flex-col-c {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}

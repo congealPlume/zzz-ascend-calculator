@@ -1,0 +1,297 @@
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>绝区零消耗计算器</title>
+
+		<script src="https://wiki.biligame.com/tools/MediaWiki:vue3-global.js?action=raw&ctype=text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script src="./data.js"></script>
+		<link rel="stylesheet" href="./index.css" />
+		<link rel="stylesheet" href="https://staticwiki.biligame.com/resources/bili/css/bootstrap.min.css?version=76" />
+	</head>
+
+	<body>
+		<div id="onload" class="flex-row-cc">
+			<div class="loading-spinner"></div>
+		</div>
+		<div class="row" id="app" style="display: none">
+			<div class="btn-help" @click="打开帮助()">帮助</div>
+			<div class="help-box" v-if="设置.帮助">
+				<div class="flex-col-c">
+					<div>
+						<div class="text-title" style="text-align: left">TIPS:</div>
+						<div>&emsp;① 当处于突破等阶时可以选择突破\不突破</div>
+						<div>&emsp;② 默认天赋计算不显示须自行打开</div>
+						<div>&emsp;③ 默认消耗素材不显示须自行展开</div>
+						<div>&emsp;④ 会保存上次输入的记录（清理浏览器缓存会丢失）</div>
+						<div>&emsp;⑤ 左侧显示所有需要素材合计</div>
+						<div class="text-title" style="text-align: left">Ps:</div>
+						<div>&emsp;1. 未实装角色、武器无法计算素材属于正常情况</div>
+					</div>
+					<div class="flex-row-c btn-close" @click="打开帮助('close')">
+						<img src="https://patchwiki.biligame.com/images/ys/f/fc/37xtz93b68ycv6lr4jip3llbrk268nq.png" alt="" />
+						不再提示（收至左上角帮助）
+					</div>
+				</div>
+			</div>
+			<div id="cp-shade" v-if="遮罩开关" @click="关闭遮罩()"></div>
+			<div class="flex-row bag-box list-box" v-if="设置.背包素材显示">
+				<div class="materials-img flex-row-fc" v-for="(jnItem,jnIndex) in 背包素材">
+					<div class="icon-text" v-if="文字角标(jnIndex)[0]">{{文字角标(jnIndex)[1]}}</div>
+					<img :src="获取图片(jnIndex)" />
+					<input type="number" v-model="背包素材[jnIndex]" />
+				</div>
+				<rh v-for="item in Array(12)"></rh>
+			</div>
+			<div class="col-lg-4 col-sm-6 col-xs-12">
+				<div class="flex-col-c main-box set-box">
+					<div class="text-title">资源总汇</div>
+					<div class="text-title flex-row-cc">
+						<span>副本等级</span>
+						<select v-model="设置.关卡等级">
+							<option :value="jnItem" v-for="(jnItem,jnIndex) in Array.from(Array(6), (_,i) => i + 1)">{{jnItem}}级</option>
+						</select>
+					</div>
+					<div style="width: 100%" class="text-title flex-row-sc">
+						<div class="cur-p flex-row-c" @click="显示('背包素材显示')"><img :src="获取图片('背包','UIimgData')" alt="" /> 背包素材</div>
+						<div class="cur-p flex-row-c" @click="显示('详细设置',false)"><img :src="获取图片('设置','UIimgData')" alt="" />设置</div>
+					</div>
+					<div class="flex-col main-case" v-if="设置.详细设置">
+						<div class="flex-row-sc">
+							<span>新增加角色初始等级</span>
+							<input v-model="设置.角色默认等级[0]" type="number" />
+							<div class="connector"></div>
+							<input v-model="设置.角色默认等级[1]" type="number" />
+						</div>
+						<hr />
+						<div class="flex-row-sc">
+							<span>新增加武器初始等级</span>
+							<input v-model="设置.武器默认等级[0]" type="number" />
+							<div class="connector"></div>
+							<input v-model="设置.武器默认等级[1]" type="number" />
+						</div>
+						<hr />
+						<div>导入导出计算器数据（仅用于本计算器）</div>
+						<label class="btn-set-b" for="jsonUpload">
+							<div class="flex-row-c">
+								<svg t="1678164769666" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6475" id="mx_n_1678164769667" width="20" height="20" style="margin-right: 8px">
+									<path
+										d="M768 841.142857q0-14.857143-10.857143-25.714286t-25.714286-10.857142-25.714285 10.857142-10.857143 25.714286 10.857143 25.714286 25.714285 10.857143 25.714286-10.857143 10.857143-25.714286z m146.285714 0q0-14.857143-10.857143-25.714286t-25.714285-10.857142-25.714286 10.857142-10.857143 25.714286 10.857143 25.714286 25.714286 10.857143 25.714285-10.857143 10.857143-25.714286z m73.142857-128v182.857143q0 22.857143-16 38.857143t-38.857142 16H91.428571q-22.857143 0-38.857142-16t-16-38.857143v-182.857143q0-22.857143 16-38.857143t38.857142-16h244q12 32 40.285715 52.571429t63.142857 20.571428h146.285714q34.857143 0 63.142857-20.571428t40.285715-52.571429h244q22.857143 0 38.857142 16t16 38.857143z m-185.714285-370.285714q-9.714286 22.857143-33.714286 22.857143h-146.285714v256q0 14.857143-10.857143 25.714285t-25.714286 10.857143H438.857143q-14.857143 0-25.714286-10.857143t-10.857143-25.714285V365.714286H256q-24 0-33.714286-22.857143-9.714286-22.285714 8-39.428572L486.285714 47.428571q10.285714-10.857143 25.714286-10.857142t25.714286 10.857142l256 256q17.714286 17.142857 8 39.428572z"
+										p-id="6476"
+										fill="#ece5d8"
+									></path>
+								</svg>
+								导入计算器数据
+							</div>
+							<input class="hide" @change="导入数据" type="file" accept=".json" id="jsonUpload" />
+						</label>
+						<div class="btn-set-b flex-row-c" @click="导出数据()">
+							<svg t="1678433910496" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12277" width="20" height="20" style="margin-right: 8px">
+								<path
+									d="M976 736H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h928c26.5 0 48-21.5 48-48V784c0-26.5-21.5-48-48-48zM736 896c0-17.7 14.3-32 32-32s32 14.3 32 32-14.3 32-32 32-32-14.3-32-32z m128 32c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zM696.6 344.4H592c-17.7 0-32-14.3-32-32V4h-96v308.4c0 17.7-14.3 32-32 32H327.4c-3.1 0-5 3.3-3.5 6L508.5 670c1.5 2.7 5.4 2.7 6.9 0L700 350.4c1.6-2.7-0.4-6-3.4-6z"
+									p-id="12278"
+									fill="#ece5d8"
+								></path>
+							</svg>
+							导出计算器数据
+						</div>
+						<hr />
+						<div>保存数据到Wiki（可跨设备使用 ）</div>
+						<div class="btn-set-b flex-row-c" @click="加载Wiki数据()">
+							<svg style="margin-right: 8px" t="1678440099130" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2754" width="20" height="20">
+								<path d="M704 128H192c-35.2 0-64 28.8-64 64v640c0 35.2 28.8 64 64 64h640c35.2 0 64-28.8 64-64V320L704 128zM256 256h320v128H256V256z m256 512c-70.4 0-128-57.6-128-128s57.6-128 128-128 128 57.6 128 128-57.6 128-128 128z" p-id="2755" fill="#ece5d8"></path>
+							</svg>
+							存取数据于Wiki
+						</div>
+						<div class="flex-row-sc" style="margin-top: 4px" v-if="Wiki储存!==''" v-for="(wikiItem,wikiIndex) in Wiki储存">
+							<input class="save-wiki" type="text" v-model="wikiItem.name" />
+							<div class="btn-set" @click="导入Wiki数据(wikiIndex)">读取数据</div>
+							<div class="btn-set flex-row-c" @click="保存Wiki数据(wikiItem.name,wikiIndex)">
+								<svg style="margin-right: 4px" t="1678440099130" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2754" width="16" height="16">
+									<path d="M704 128H192c-35.2 0-64 28.8-64 64v640c0 35.2 28.8 64 64 64h640c35.2 0 64-28.8 64-64V320L704 128zM256 256h320v128H256V256z m256 512c-70.4 0-128-57.6-128-128s57.6-128 128-128 128 57.6 128 128-57.6 128-128 128z" p-id="2755" fill="#2d2d2d"></path>
+								</svg>
+								保存数据
+							</div>
+						</div>
+						<hr />
+						<div class="flex-row-fc">
+							<div class="btn-set" @click="清空背包素材()">清空背包素材</div>
+							<div class="btn-set" @click="清空角色武器()">角色武器清零</div>
+							<div class="btn-set" @click="是否全部计算()">是否全部计算</div>
+						</div>
+					</div>
+				</div>
+				<div class="flex-row main-box-b">
+					<div class="power-box" style="width: 100%">
+						<div class="text-title">
+							<a style="color: #f9cc9d;" href="https://docs.qq.com/sheet/DRFR6a3ZTRHhjUXp2?tab=BB08J2" target="_blank">一起统计掉落数量 完善期望功能吧！</a>
+						</div>
+						<div>预计需要体力与花费天数<br />因期望数据全是编的故体力花费非常不准确</div>
+						<div class="flex-row-sc">
+							<div>
+								<img :src="获取图片('体力','UIimgData')" />
+								<span> x {{体力计算[0]}}</span>
+							</div>
+							<div>约{{体力计算[1]}}天</div>
+						</div>
+						<hr />
+					</div>
+					<div class="kind-box list-box flex-row-c" v-if="选中素材[0]">
+						<div class="materials-img flex-row-c" v-for="(jnItem,jnIndex) in 选中素材[1]">
+							<div class="icon-text" v-if="文字角标(jnIndex)[0]">{{文字角标(jnIndex)[1]}}</div>
+							<img :src="获取图片(jnIndex)" />
+							<input type="number" v-model="背包素材[jnIndex]" />
+						</div>
+					</div>
+					<div class="materials-img need-box flex-row-fc" @click="打开同类素材(jnIndex)" v-show="!(jnItem == 0)" v-for="(jnItem,jnIndex) in roleNeedMaterial">
+						<div class="icon-text" v-if="文字角标(jnIndex)[0]">{{文字角标(jnIndex)[1]}}</div>
+						<img :src="获取图片(jnIndex)" />
+						<div>x{{数字转换(jnItem)}}</div>
+					</div>
+					<rh v-for="item in Array(4)"></rh>
+				</div>
+			</div>
+			<div class="col-lg-8 col-sm-6 col-xs-12">
+				<div class="row">
+					<div class="col-lg-6 col-sm-12 col-xs-12">
+						<div class="flex-row">
+							<div class="show-box flex-row" v-for="(item,index) in 角色box" v-show="!item.计算相关[2]">
+								<div class="text-title" style="color: #fff">{{item.name}}</div>
+								<div>
+									<img @click="delBtn(item.key)" class="btn-min" :src="获取图片('删除按钮','UIimgData')" />
+									<img @click="计算开关(item.key)" class="btn-min" :src="获取图片('计算按钮','UIimgData')" style="margin-left: 4px" />
+								</div>
+							</div>
+						</div>
+						<div class="main-box" v-for="(item,index) in 角色box" v-show="item.计算相关[2]">
+							<img @click="计算开关(item.key)" class="btn-min" :src="获取图片('不计算按钮','UIimgData')" />
+							<div v-if="item.显示[3]" class="list-box">
+								<div class="list-type flex-row">
+									<img v-for="(jsItem,jsIndex) in 角色列表" :class="item.列表属性==jsIndex?'':'filter-Gray'" :src="获取图片(jsIndex,'UIimgData')" @click="更改列表属性(item.key,'角色',jsIndex)" />
+								</div>
+								<div class="list-main flex-row">
+									<div class="list-contatiner flex-col-c" @click="选择角色(item.key,jsItem[0])" v-for="(jsItem,jsIndex) in 角色列表[item.列表属性]">
+										<img :src="获取图片(jsItem[0])" />
+										<div>{{jsItem[0]}}</div>
+										<div :class="`color-${jsItem[1]}`"></div>
+									</div>
+									<rh v-for="item in Array(4)"></rh>
+								</div>
+							</div>
+							<div class="flex-row-sc" style="margin-bottom: 8px">
+								<div class="img-box">
+									<img :src="获取图片(item.name)" @click="打开列表(item.key,'角色')" />
+									<img class="btn-del" :src="获取图片('删除按钮','UIimgData')" @click="delBtn(item.key)" />
+								</div>
+								<div class="flex-col base-case">
+									<div class="flex-row-sc">
+										<div class="text-title">{{item.name}}</div>
+										<div class="btn-on" @click="养成完毕(item.key,'角色')">养成完毕</div>
+										<div class="btn-on" :class="item.计算相关[3]==true?'':'btn-off'" @click="技能开关(item.key)">技能计算</div>
+									</div>
+									<div class="text-min">填写等级</div>
+									<div class="flex-row-sc">
+										<input v-model="item.等级[0]" type="number" @blur="角色计算(item.key)" />
+										<div class="connector"></div>
+										<input v-model="item.等级[1]" type="number" @blur="角色计算(item.key)" />
+									</div>
+									<div class="flex-row-sc">
+										<div v-if="item.显示[0]" class="btn-on" @click="角色计算(item.key),是否突破(item.key,0,'角色')" :class="item.计算相关[0]==false?'btn-off':''">{{item.计算相关[0]==false?'不突破':'突破'}}</div>
+										<span></span>
+										<div v-if="item.显示[1]" class="btn-on" @click="角色计算(item.key),是否突破(item.key,1,'角色')" :class="item.计算相关[1]==false?'btn-off':''">{{item.计算相关[1]==false?'不突破':'突破'}}</div>
+									</div>
+								</div>
+							</div>
+							<div v-if="item.计算相关[3]" class="flex-row-sc main-case">
+								<div class="skill-box flex-col-c" v-for="(jnItem,jnIndex) in item.技能">
+									<img :src="获取图片(`技能${jnIndex+1}`,'UIimgData')" alt="" />
+									<div class="flex-row-sc">
+										<input v-model="jnItem[0]" type="number" @blur="技能计算(item.key)" />
+										<div class="connector"></div>
+										<input v-model="jnItem[1]" type="number" @blur="技能计算(item.key)" />
+									</div>
+								</div>
+							</div>
+							<div class="main-case flex-row" v-if="item.显示[2]">
+								<div class="materials-img flex-row-fc" v-for="(jnItem,jnIndex) in 素材合计(item.key)" v-show="!(jnItem == 0)">
+									<a :href="jnIndex"> <img :src="获取图片(jnIndex)" /></a>
+									<div>x{{数字转换(jnItem)}}</div>
+								</div>
+								<rh v-for="item in Array(4)"></rh>
+							</div>
+							<div class="more-btn" @click="显示详细消耗(item.key,'角色')">{{item.显示[2]==true?"收起":"展开"}}</div>
+						</div>
+						<div class="add-btn flex-row-c" @click="addBtn()">
+							<img :src="获取图片('添加按钮','UIimgData')" />
+						</div>
+					</div>
+					<div class="col-lg-6 col-sm-12 col-xs-12">
+						<div class="flex-row">
+							<div class="show-box flex-row" v-for="(item,index) in 武器box" v-show="!item.计算相关[2]">
+								<div class="text-title" style="color: #fff">{{item.name}}</div>
+								<div>
+									<img @click="delBtn(item.key,'武器')" class="btn-min" :src="获取图片('删除按钮','UIimgData')" />
+									<img @click="计算开关(item.key,'武器')" class="btn-min" :src="获取图片('计算按钮','UIimgData')" style="margin-left: 4px" />
+								</div>
+							</div>
+						</div>
+						<div class="main-box" v-for="(item,index) in 武器box" v-show="item.计算相关[2]">
+							<img @click="计算开关(item.key,'武器')" class="btn-min" :src="获取图片('不计算按钮','UIimgData')" />
+							<div v-if="item.显示[3]" class="list-box">
+								<div class="list-type flex-row">
+									<img v-for="(jsItem,jsIndex) in 武器列表" :class="item.列表属性==jsIndex?'':'filter-Gray'" :src="获取图片(jsIndex,'UIimgData')" @click="更改列表属性(item.key,'武器',jsIndex)" />
+								</div>
+								<div class="list-main flex-row">
+									<div class="list-contatiner flex-col-c" @click="选择武器(item.key,jsItem[0])" v-for="(jsItem,jsIndex) in 武器列表[item.列表属性]">
+										<img :src="获取图片(jsItem[0])" />
+										<div>{{jsItem[0]}}</div>
+										<div :class="`color-${jsItem[1]}`"></div>
+									</div>
+									<rh v-for="item in Array(4)"></rh>
+								</div>
+							</div>
+							<div class="flex-row-sc" style="margin-bottom: 8px">
+								<div class="img-box">
+									<img :src="获取图片(item.name)" @click="打开列表(item.key,'武器')" />
+									<img class="btn-del" :src="获取图片('删除按钮','UIimgData')" @click="delBtn(item.key,'武器')" />
+								</div>
+								<div class="flex-col base-case">
+									<div class="flex-row-sc">
+										<div class="text-title">{{item.name}}</div>
+										<div class="btn-on" @click="养成完毕(item.key,'武器')">养成完毕</div>
+									</div>
+									<div class="text-min">填写等级</div>
+									<div class="flex-row-sc">
+										<input v-model="item.等级[0]" type="number" @blur="武器计算(item.key)" />
+										<div class="connector"></div>
+										<input v-model="item.等级[1]" type="number" @blur="武器计算(item.key)" />
+									</div>
+									<div class="flex-row-sc">
+										<div v-if="item.显示[0]" class="btn-on" @click="武器计算(item.key),是否突破(item.key,0,'武器')" :class="item.计算相关[0]==false?'btn-off':''">{{item.计算相关[0]==false?'不突破':'突破'}}</div>
+										<span></span>
+										<div v-if="item.显示[1]" class="btn-on" @click="武器计算(item.key),是否突破(item.key,1,'武器')" :class="item.计算相关[1]==false?'btn-off':''">{{item.计算相关[1]==false?'不突破':'突破'}}</div>
+									</div>
+								</div>
+							</div>
+							<div class="main-case flex-row" v-if="item.显示[2]">
+								<div class="materials-img flex-row-fc" v-for="(jnItem,jnIndex) in item.素材" v-show="!(jnItem == 0)">
+									<a :href="jnIndex"> <img :src="获取图片(jnIndex)" /></a>
+									<div>x{{数字转换(jnItem)}}</div>
+								</div>
+								<rh v-for="item in Array(4)"></rh>
+							</div>
+							<div class="more-btn" @click="显示详细消耗(item.key,'武器')">{{item.显示[2]==true?"收起":"展开"}}</div>
+						</div>
+						<div class="add-btn flex-row-c" @click="addBtn('武器')">
+							<img :src="获取图片('添加按钮','UIimgData')" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="./index.js"></script>
+	<script src="./getData.js"></script>
+</html>

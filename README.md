@@ -20,6 +20,7 @@
 
 data-2结构
 ```
+window.originalData.核心技能材料 = [];
 window.originalData.角色 = []
 window.originalData.武器 = []
 window.originalData.bagData = []

@@ -96,6 +96,15 @@ input::-webkit-inner-spin-button {
 	font-size: 12px;
 	cursor: pointer;
 	box-shadow: 2px 1px 4px #6b6b6b;
+	width: 70px;
+}
+.list-contatiner > div:nth-child(2) {
+	width: 70px;
+    text-align: center;
+	color: #fff;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .list-contatiner > div:last-child {
 	width: 100%;
@@ -261,7 +270,7 @@ input::-webkit-inner-spin-button {
 	background: #dbdedf;
 	color: #000;
 	display: inline-block;
-	padding: 0 12px;
+	padding: 2px 12px;
 	line-height: 1.5em;
 	cursor: pointer;
 	margin-right: 4px;
@@ -453,6 +462,19 @@ input:focus {
 	animation: spin 1s linear infinite;
 	/* 旋转动画 */
 }
+
+#dls {
+	cursor: pointer;
+	color: blue;
+}
+.dls-box {
+	z-index: 9999999999;
+	position: fixed;
+	top: 400px;
+	left: 20px;
+	background: #fff;
+	padding: 4px;
+}
 /* a链接 */
 #app a,
 #app a:link,
@@ -460,8 +482,8 @@ input:focus {
 #app a:hover,
 #app a:focus,
 #app a:active {
-	color: #fff ;
-	text-decoration: none ;
+	color: #fff;
+	text-decoration: none;
 }
 /* font */
 .text-title {
@@ -498,6 +520,13 @@ input:focus {
 	align-items: center;
 	flex-wrap: wrap;
 	justify-content: space-between;
+}
+.flex-row-sac {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: space-around;
 }
 .flex-row-fc {
 	display: flex;

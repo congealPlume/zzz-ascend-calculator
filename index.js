@@ -1,3 +1,9 @@
+// 清理缓存按钮
+$("body").on("click", "#dls", function () {
+	if (!confirm("是否清除该计算器缓存")) return;
+	localStorage.setItem("cp_zzz_computeData", "");
+	location.reload();
+});
 var 初始数据 = {
 	角色初始数据: {
 		key: 0,
@@ -8,14 +14,16 @@ var 初始数据 = {
 			[1, 1],
 			[1, 1],
 			[1, 1],
+			[1, 1],
+			[1, 1],
 		],
 		稀有度: "S",
-		核心技能材料: "高维数据：格莱特",
-		核心技能材料2: "源代码：狂如恶雨",
+		核心技能材料: "高维数据：凶刑讣告",
+		核心技能材料2: "腥风之握",
 		特性: "强攻",
 		属性: "物理",
 		素材: { 见习调查员记录: 0, 正式调查员记录: 0, 资深调查员记录: 300, 初阶强攻认证章: 4, 高阶强攻认证章: 32, 先行者认证章: 30, 丁尼: 800000 },
-		技能素材: { 基础物理芯片: 0, 进阶物理芯片: 0, 特化物理芯片: 0, "高维数据：提丰·重击者型": 0, "源代码：狂如恶雨": 0, "「仓鼠笼」访问器": 0, 丁尼: 0 },
+		技能素材: { 基础物理芯片: 0, 进阶物理芯片: 0, 特化物理芯片: 0, "高维数据：凶刑讣告": 0, 腥风之握: 0, "「仓鼠笼」访问器": 0, 丁尼: 0 },
 		计算相关: [false, false, true, false], // 前突破,后突破,是否计算,是否计算技能,
 		显示: [false, false, true, false], // 前突破,后突破,显示详细消耗,角色列表
 		列表属性: "物理",
@@ -25,11 +33,11 @@ var 初始数据 = {
 		name: "钢铁肉垫",
 		等级: [1, 60],
 		稀有度: "S",
-		特性: "击破",
-		素材: { 音擎蓄电池: 6, 变频音擎电源: 4, 音擎能源模块: 199, 音擎振膜: 5, 增强型音擎振膜: 40, 复合式音擎振膜: 37, 丁尼: 370000 },
+		特性: "强攻",
+		素材: { 音擎蓄电池: 6, 变频音擎电源: 4, 音擎能源模块: 199, 音擎极片: 4, 增强型音擎极片: 32, 复合式音擎极片: 30, 丁尼: 400000 },
 		计算相关: [false, false, true], // 前突破,后突破,是否计算
 		显示: [false, false, true, false], // 前突破,后突破,显示详细消耗,武器列表
-		列表属性: "击破",
+		列表属性: "强攻",
 	},
 };
 var 角色列表 = { 冰结: [], 引燃: [], 电击: [], 物理: [], 以太: [] };
@@ -161,6 +169,7 @@ var comFun = {
 		newData.data = comData;
 		newData.data.背包素材 = that.背包素材;
 		newData.data.设置 = that.设置;
+		newData.data.遮罩开关 = that.遮罩开关;
 		//  newData = JSON.stringify(data);
 		localStorage.setItem("cp_zzz_computeData", JSON.stringify(newData));
 	},
@@ -195,6 +204,7 @@ var comFun = {
 			that.武器box.push(newData);
 			that.选择武器(index, item.名称, false);
 		});
+		that.遮罩开关 = localData.data.遮罩开关;
 		that.背包素材 = localData.data.背包素材;
 		that.设置 = localData.data.设置;
 	},
@@ -329,7 +339,7 @@ var Counter = {
 					种类 = "角色技能";
 				} else if (fIndex.indexOf("音擎") != -1) {
 					种类 = "音擎突破材料";
-				} else if (fIndex.indexOf("高维数据") != -1 || fIndex.indexOf("源代码") != -1) {
+				} else if (fIndex.indexOf("高维数据") != -1 || originalData.核心技能材料.find((i) => i == fIndex) != undefined) {
 					种类 = "角色核心技能";
 					体力 = 40;
 				}
@@ -432,7 +442,7 @@ var Counter = {
 			// 控制等級
 			$.each(nowData.技能, function (index, item) {
 				let maxLevel = 12;
-				if (index == 3) maxLevel = 6;
+				if (index == 5) maxLevel = 6;
 				if (item[0] < 1) {
 					nowData.技能[index][0] = 1;
 				} else if (item[0] > maxLevel) {
@@ -451,7 +461,7 @@ var Counter = {
 				const beforeLevel = jnItem[0];
 				const afterLevel = jnItem[1];
 				let cailiaoData = originalData.角色技能升级;
-				if (jnIndex == 3) cailiaoData = originalData.角色核心技能升级;
+				if (jnIndex == 5) cailiaoData = originalData.角色核心技能升级;
 				for (let i = beforeLevel; i < afterLevel; i++) {
 					$.each(materialsBox, function (index, item) {
 						materialsBox[index] = item + cailiaoData[i][index] || item;
@@ -480,12 +490,7 @@ var Counter = {
 			let that = this;
 			let nowData = that.角色box.find((i) => i.key == key);
 			nowData.计算相关[3] = !nowData.计算相关[3];
-			nowData.技能 = [
-				[1, 1],
-				[1, 1],
-				[1, 1],
-				[1, 1],
-			];
+			nowData.技能 = JSON.parse(JSON.stringify(初始数据.角色初始数据.技能));
 			that.技能计算(key);
 		},
 		武器计算(key) {
@@ -724,6 +729,7 @@ var Counter = {
 			this[`${type}box`] = this[`${type}box`].filter((t) => t.key !== key);
 		},
 		获取图片(imgName, imgType = "imgUrlData") {
+			// console.log(imgName);
 			return originalData[imgType][imgName] || originalData.UIimgData.缺失;
 		},
 		打开同类素材(name) {
@@ -919,9 +925,15 @@ var Counter = {
 			$("body").css("overflow", "");
 			$("#content").removeAttr("style", "z-index");
 		},
+		清除缓存() {
+			if (!confirm("是否清除该计算器缓存\n请慎重操作")) return;
+			localStorage.setItem("cp_zzz_computeData", "");
+			location.reload();
+		},
 	},
 	mounted() {
 		$("#onload").hide();
+		$(".dls-box").hide();
 		$("#app").show();
 	},
 };

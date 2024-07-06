@@ -34,7 +34,7 @@ var 初始数据 = {
 		等级: [1, 60],
 		稀有度: "S",
 		特性: "强攻",
-		素材: { 音擎蓄电池: 6, 变频音擎电源: 4, 音擎能源模块: 199, 音擎极片: 4, 增强型音擎极片: 32, 复合式音擎极片: 30, 丁尼: 400000 },
+		素材: { 音擎蓄电池: 6, 变频音擎电源: 4, 音擎能源模块: 199, 强攻组件: 4, 增强型强攻组件: 32, 特化型强攻组件: 30, 丁尼: 400000 },
 		计算相关: [false, false, true], // 前突破,后突破,是否计算
 		显示: [false, false, true, false], // 前突破,后突破,显示详细消耗,武器列表
 		列表属性: "强攻",
@@ -327,7 +327,7 @@ var Counter = {
 				});
 				let 种类;
 				let 体力 = 20;
-				if (fIndex == "音擎能源模块" || fIndex == "变频音擎电源" || fIndex == "音擎蓄电池") {
+				if (fIndex.indexOf("组件") != -1) {
 					种类 = "音擎经验";
 				} else if (fIndex.indexOf("调查员记录") != -1) {
 					种类 = "角色经验";
@@ -679,6 +679,9 @@ var Counter = {
 			if (text.indexOf("认证章") != -1) {
 				showText = true;
 				outText = findKeyByValue(originalData.角色突破材料系列, text);
+			} else if (text.indexOf("组件") != -1) {
+				showText = true;
+				outText = findKeyByValue(originalData.音擎突破材料系列, text);
 			} else if (text.indexOf("：") != -1) {
 				showText = true;
 				const regex = new RegExp(`：(.*)`);

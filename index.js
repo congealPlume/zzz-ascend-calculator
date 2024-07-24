@@ -442,7 +442,7 @@ var Counter = {
 			// 控制等級
 			$.each(nowData.技能, function (index, item) {
 				let maxLevel = 12;
-				if (index == 5) maxLevel = 6;
+				if (index == 5) maxLevel = 7;
 				if (item[0] < 1) {
 					nowData.技能[index][0] = 1;
 				} else if (item[0] > maxLevel) {

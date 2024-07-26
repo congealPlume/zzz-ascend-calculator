@@ -624,7 +624,7 @@ var Counter = {
 			let that = this;
 			let nowData = that[`${type}box`].find((i) => i.key == key);
 			nowData.计算相关[index] = !nowData.计算相关[index];
-			that.角色计算(key);
+			that[`${type}计算`](key);
 		},
 		打开列表(key, type) {
 			let that = this;

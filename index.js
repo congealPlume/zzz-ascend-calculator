@@ -719,7 +719,7 @@ var Counter = {
 		addBtn(type = "角色") {
 			let that = this;
 			let newData = JSON.parse(JSON.stringify(初始数据[`${type}初始数据`]));
-			newData.等级 = that.设置[`${type}默认等级`];
+			newData.等级 = JSON.parse(JSON.stringify(that.设置[`${type}默认等级`]));
 			if (that[`${type}box`].at(-1)) {
 				newData.key = that[`${type}box`].at(-1).key + 1;
 			} else {
